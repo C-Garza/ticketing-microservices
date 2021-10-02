@@ -1,6 +1,6 @@
 import express, {Request, Response} from "express";
 import { body } from "express-validator";
-import { validateRequest, NotFoundError, requireAuth, NotAuthorizedError } from "@cgatickets/common";
+import { validateRequest, NotFoundError, requireAuth, NotAuthorizedError, BadRequestError } from "@cgatickets/common";
 import { Ticket } from "../models/Ticket";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 import { natsWrapper } from "../nats-wrapper";
@@ -20,6 +20,10 @@ router.put("/api/tickets/:id", requireAuth, [
 
   if(!ticket) {
     throw new NotFoundError();
+  }
+
+  if(ticket.orderId) {
+    throw new BadRequestError("Cannot edit a reserved ticket");
   }
 
   if(ticket.userId !== req.currentUser!.id) {
