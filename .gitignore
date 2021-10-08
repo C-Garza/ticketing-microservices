@@ -4,3 +4,4 @@ node_modules/
 /common
 
 setEnvVars.ts
+.env.local
