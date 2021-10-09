@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: cd payments/src/test && touch setEnvVars.ts echo process.env.STRIPE_KEY=${{secrets.STRIPE_KEY}} >> setEnvVars.ts && cd ../../ && npm install && npm run test:ci
         env:
-          STRIPE_KEY=${{secrets.STRIPE_KEY}}
+          STRIPE_KEY: ${{secrets.STRIPE_KEY}}
